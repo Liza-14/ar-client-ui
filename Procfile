@@ -1,1 +1,2 @@
-web: npm run serve
+web: npx serve ./dist
+build: npm run build
