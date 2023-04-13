@@ -6,7 +6,7 @@
 var items = [
   { 
     target_index: 0,
-    augmented_video: null
+    augmented_video: "./video.mp4"
   }
 ];
 
