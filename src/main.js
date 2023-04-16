@@ -6,13 +6,11 @@
 var items = [
   { 
     target_index: 0,
-    augmented_video: "./video.mp4"
+    augmented_video: "./video.mp4",
+    // augmented_video: null, 
+    target_image: "./photo.png"
   }
 ];
-
-var error;
-const insertAfter = (element, htmlString) =>
-  element.insertAdjacentHTML("afterend", htmlString);
 
 const afterAugment = () => {
   var play_btn = new Array();
@@ -51,9 +49,9 @@ const afterAugment = () => {
           }
         }
       });
-      info_btn[i].addEventListener("click", () => {
-        window.location.replace(`http://172.20.10.10:3000/iteminfo/${i}`);
-      });
+      // info_btn[i].addEventListener("click", () => {
+      //   window.location.replace(`http://172.20.10.10:3000/iteminfo/${i}`);
+      // });
     }
   }
 }   
@@ -64,39 +62,29 @@ function mainFunction() {
   console.log(permissionObj.state);
  })
   
-  let result = ``;
-
-  result =
-    `<a-scene mindar-image="imageTargetSrc: ./targets1.mind"; maxTrack: 2;"
+  let sceneHtml = 
+    `<a-scene mindar-image="imageTargetSrc: ./targets.mind"; maxTrack: 2;"
       vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
 
-      <a-camera position="0 0 0" look-controls="enabled: false"
+      <a-camera position="0 0 0" look-controls="enabled: true"
         cursor="fuse: false; rayOrigin: mouse;" raycaster=" objects: .clickable">
       </a-camera>
     </a-scene>`;
 
   const body = document.body;
-  body.innerHTML = result;
+  body.innerHTML = sceneHtml;
 
-  const camera = document.getElementsByTagName("a-camera")[0];
-  result = ``;
+  var entityHtml = '';
+
   for (let i = 0; i < items.length; i++) {
     let play_btn_id = "play-btn" + items[i].target_index;
     let info_btn_id = "info-btn" + items[i].target_index;
     if (items[i].augmented_video == null) {
-      result =
-        result +
-        `
-      <a-entity mindar-image-target="targetIndex: ${items[i].target_index}">
-        <a-image id="${play_btn_id}" class="clickable"
-          src="./logo.png"
-          width="0.2" height="0.2" position="0.3 0 0"></a-image>
-        <a-image id="${info_btn_id}" class="clickable"
-          src="./logo.png"
-          width="0.2" height="0.2" position="-0.3 0 0"></a-image>
-      </a-entity>
-    `;
-      
+      entityHtml =
+      `<a-entity mindar-image-target="targetIndex: ${items[i].target_index}">
+        <a-image id="${play_btn_id}" class="clickable" src="./logo.png" width="0.2" height="0.2" position="0.3 0 0"></a-image>
+        <a-image id="${info_btn_id}" class="clickable" src="./logo.png" width="0.2" height="0.2" position="-0.3 0 0"></a-image>
+      </a-entity>`;
     } else {
       const getMeta = (url, cb) => {
         const img = new Image();
@@ -107,31 +95,30 @@ function mainFunction() {
 
       // Use like:
       getMeta(items[i].target_image, (err, img) => {
-        result =
-          result +
-          `
-      <a-entity mindar-image-target="targetIndex: ${items[i].target_index}">
-        <a-image id="${play_btn_id}" class="clickable"
-          src="./Assets/play_btn.png"
-          width="0.2" height="0.2" position="0.3 -0.8 0.3"></a-image>
-        <a-image id="${info_btn_id}" class="clickable"
-          src="./Assets/info_btn.png"
-          width="0.2" height="0.2" position="-0.3 -0.8 0.3"></a-image>
-      
-        <a-video src=" ` +
-          items[i].augmented_video +
-          `" width="` +
-          img.naturalWidth / img.naturalWidth +
-          `" height="` +
-          img.naturalHeight / img.naturalWidth +
-          `" position="0 0 0" ></a-video>  
-      </a-entity>`;
+        console.log('err:', err)
+        console.log('img:',img)
+        // entityHtml =
+        // `<a-entity mindar-image-target="targetIndex: ${items[i].target_index}"> 
+        //   <a-image id="${play_btn_id}" class="clickable" src="./logo.png" width="0.2" height="0.2" position="0.3 -0.8 0.3"></a-image>
+        //   <a-image id="${info_btn_id}" class="clickable" src="./logo.png" width="0.2" height="0.2" position="-0.3 -0.8 0.3"></a-image>
+        //   <a-plane src="./video.mp4" position="0 0 0" height="0.552" width="1" rotation="0 0 0"></a-plane>
+        //   <a-video src="./video.mp4" width="1" height="` + img.naturalHeight / img.naturalWidth + `" position="0 0 0" ></a-video>  
+        // </a-entity>`;
       });
+
+        entityHtml =
+        `<a-entity mindar-image-target="targetIndex: ${items[i].target_index}"> 
+          <a-image id="${play_btn_id}" class="clickable" src="./logo.png" width="0.2" height="0.2" position="0.3 -0.8 0.3"></a-image>
+          <a-image id="${info_btn_id}" class="clickable" src="./logo.png" width="0.2" height="0.2" position="-0.3 -0.8 0.3"></a-image>
+          <a-video src="./video2.webm" width="1.7" height="1" position="0 0 1" ></a-video>  
+        </a-entity>`;
     }
   }
 
-  insertAfter(camera, result);
-  afterAugment();
+  const camera = document.getElementsByTagName("a-camera")[0];
+  camera.insertAdjacentHTML("afterend", entityHtml);
+
+  //afterAugment()
 }
 
 
