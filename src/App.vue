@@ -1,9 +1,13 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <ArScene />
+  <div class="container">   
+    <ArScene />
+  </div>
 </template>
 
 <script>
+import 'mind-ar/dist/mindar-image.prod.js'
+import 'aframe'
+import 'mind-ar/dist/mindar-image-aframe.prod.js'
 import ArScene from './components/ArScene.vue';
 
 export default {
@@ -15,12 +19,11 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.container {
+  margin: 0 auto;
+  position: relative;
+  height: 90vh;  
+  width: 60vw;
+  overflow: hidden;
 }
 </style>
