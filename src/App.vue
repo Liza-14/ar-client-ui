@@ -12,8 +12,8 @@ export default {
   name: 'App',
   /* eslint-disable */
   components: {
-    RouterView
-  }
+    RouterView,
+}
 }
 </script>
 

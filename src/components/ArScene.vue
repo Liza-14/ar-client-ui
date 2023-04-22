@@ -23,7 +23,7 @@ import ArVideo from './ArVideo.vue';
 export default {
   name: 'ArScene',
   props: ['id'],
-  components: [ArButtons, ArVideo],
+  components: {ArButtons, ArVideo},
   data() {
     return {
       items: [
@@ -52,7 +52,7 @@ export default {
     getTargetSrc() {
       
     console.log(this.id)
-      return `imageTargetSrc: 'http://localhost:9000/api/targetfile/' + ${this.id}; maxTrack: 1;`
+      return `imageTargetSrc: http://localhost:9000/api/targetfile/${this.id}; maxTrack: 1;`
     }
   }
 }
