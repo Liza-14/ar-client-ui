@@ -29,11 +29,4 @@ body {
   color: #2c3e50;
   margin-top: 60px;
 }
-.container {
-  margin: 0 auto;
-  position: relative;
-  height: 90vh;  
-  width: 60vw;
-  overflow: hidden;
-}
 </style>

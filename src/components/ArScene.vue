@@ -1,5 +1,6 @@
 <template>
-  <a-scene 
+  <div class="container">
+    <a-scene 
     :mindar-image="getTargetSrc()"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false"
@@ -12,6 +13,7 @@
         <ArVideo v-if="item.video" :videoURL="item.video" width="1" :height="item.height"/>
       </a-entity>
   </a-scene>
+  </div>
 </template>
 
 <script>
@@ -58,6 +60,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.container {
+  margin: 0 auto;
+  position: relative;
+  height: 90vh;  
+  width: 60vw;
+  overflow: hidden;
+}
 video {
   top: 0 !important;
 }
