@@ -1,22 +1,25 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <ArScene />
+  <RouterView></RouterView>
 </template>
 
 <script>
-import ArScene from './components/ArScene.vue';
+import {RouterView} from 'vue-router'
 
 export default {
   name: 'App',
+  /* eslint-disable */
   components: {
-    ArScene
+    RouterView
   }
 }
 </script>
 
 <style>
+body {
+  background-color: whitesmoke;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
