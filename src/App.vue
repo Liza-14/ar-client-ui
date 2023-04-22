@@ -3,6 +3,9 @@
 </template>
 
 <script>
+import 'mind-ar/dist/mindar-image.prod.js'
+import 'aframe'
+import 'mind-ar/dist/mindar-image-aframe.prod.js'
 import {RouterView} from 'vue-router'
 
 export default {
@@ -25,5 +28,12 @@ body {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.container {
+  margin: 0 auto;
+  position: relative;
+  height: 90vh;  
+  width: 60vw;
+  overflow: hidden;
 }
 </style>

@@ -1,13 +1,17 @@
 <template>
-  <a-scene :mindar-image="getTargetSrc()" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
-      <!-- <a-camera position="0 0 0" look-controls="enabled: true"
-        cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable">
-      </a-camera> -->
-      <a-entity v-for="item in items" v-bind:key="item.id" :mindar-image-target="'targetIndex:' + item.id">
-        <ArButtons :item="item"/>
-        <ArVideo v-if="item.video" :width="1" :height="1"/>
+  <a-scene 
+    :mindar-image="getTargetSrc()"
+    vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false"
+    renderer="colorManagement: true, physicallyCorrectLights"
+    color-space="sRGB"
+    embedded>
+      <a-camera position="0 0 0" look-controls="enabled: true" cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable"></a-camera>
+      <a-entity v-for="item in items" :key="item.id" :mindar-image-target="'targetIndex: '  + item.id">
+        <ArButtons :id="item.id"/>
+        <ArVideo v-if="item.video" :videoURL="item.video" width="1" :height="item.height"/>
       </a-entity>
-    </a-scene>
+  </a-scene>
 </template>
 
 <script>
@@ -22,10 +26,16 @@ export default {
     return {
       items: [
         { 
-          id: 0,
+          id: 1,
           video: "./video.mp4",
           // video: null, 
-          image: "./photo.png"
+          height: "1.2"
+        },
+        { 
+          id: 0,
+          video: "./video2.webm",
+          // video: null, 
+          height: "1.2"
         }
       ]
     }
@@ -47,5 +57,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+video {
+  top: 0 !important;
+}
 </style>
