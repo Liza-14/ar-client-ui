@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <a-scene 
+    <a-scene
     :mindar-image="getTargetSrc()"
     vr-mode-ui="enabled: false"
     device-orientation-permission-ui="enabled: false"
@@ -23,24 +23,24 @@ import ArVideo from './ArVideo.vue';
 export default {
   name: 'ArScene',
   props: ['id'],
-  components: {ArButtons, ArVideo},
+  components: { ArButtons, ArVideo },
   data() {
     return {
       items: [
-        { 
+        {
           id: 1,
-          video: "./video.mp4",
-          // video: null, 
-          height: "1.2"
+          video: './video.mp4',
+          // video: null,
+          height: '1.2',
         },
-        { 
+        {
           id: 0,
-          video: "./video2.webm",
-          // video: null, 
-          height: "1.2"
-        }
-      ]
-    }
+          video: './video2.webm',
+          // video: null,
+          height: '1.2',
+        },
+      ],
+    };
   },
   methods: {
     getMeta(url, cb) {
@@ -50,12 +50,11 @@ export default {
       img.src = url;
     },
     getTargetSrc() {
-      
-    console.log(this.id)
-      return `imageTargetSrc: http://localhost:9000/api/targetfile/${this.id}; maxTrack: 1;`
-    }
-  }
-}
+      console.log(this.id);
+      return `imageTargetSrc: http://localhost:9000/api/targetfile/${this.id}; maxTrack: 1;`;
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -63,7 +62,7 @@ export default {
 .container {
   margin: 0 auto;
   position: relative;
-  height: 90vh;  
+  height: 90vh;
   width: 60vw;
   overflow: hidden;
 }

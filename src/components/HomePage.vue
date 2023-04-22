@@ -13,25 +13,25 @@
 
 <script>
 export default {
-    name: 'HomePage',
-    data() {
-        return {
-            exhibitions: []
-        }
+  name: 'HomePage',
+  data() {
+    return {
+      exhibitions: [],
+    };
+  },
+  created() {
+    fetch('http://localhost:9000/api/exhibitions')
+      .then((res) => res.json())
+      .then((data) => {
+        this.exhibitions = data;
+      });
+  },
+  methods: {
+    toAR(item) {
+      this.$router.push({ name: 'ar', params: { id: item.id } });
     },
-    created() {
-        fetch('http://localhost:9000/api/exhibitions')
-            .then((res) => res.json())
-            .then((data) => {
-                this.exhibitions = data;
-            });
-    },
-    methods: {
-        toAR(item) {
-            this.$router.push({name: 'ar', params: {id: item.id}})
-        }
-    }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -44,7 +44,7 @@ export default {
     background-color: white;
     border-radius: 16px;
     padding: 10px;
-    width: 250px;    
+    width: 250px;
     margin-top: 20px;
 }
 

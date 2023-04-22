@@ -3,10 +3,10 @@
 </template>
 
 <script>
-import 'mind-ar/dist/mindar-image.prod.js'
-import 'aframe'
-import 'mind-ar/dist/mindar-image-aframe.prod.js'
-import {RouterView} from 'vue-router'
+import 'mind-ar/dist/mindar-image.prod';
+import 'aframe';
+import 'mind-ar/dist/mindar-image-aframe.prod';
+import { RouterView } from 'vue-router';
 
 export default {
   name: 'App',

@@ -3,18 +3,17 @@
 //   transpileDependencies: true,
 // })
 
-
 module.exports = {
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     config.module
       .rule('vue')
       .use('vue-loader')
-      .tap(options => ({
+      .tap((options) => ({
         ...options,
         compilerOptions: {
           // a-frame components
-          isCustomElement: tag => tag.startsWith('a-')
-        }
-      }))
-  }
-}
+          isCustomElement: (tag) => tag.startsWith('a-'),
+        },
+      }));
+  },
+};
