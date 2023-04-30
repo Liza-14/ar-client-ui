@@ -8,9 +8,9 @@
     color-space="sRGB"
     embedded>
       <a-camera position="0 0 0" look-controls="enabled: true" cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable"></a-camera>
-      <a-entity v-for="item in items" :key="item.id" :mindar-image-target="'targetIndex: '  + item.id">
-        <ArButtons :id="item.id"/>
-        <ArVideo v-if="item.video" :videoURL="item.video" width="1" :height="item.height"/>
+      <a-entity v-for="(item, index) in this.$store.state.pictures[this.id]" :key="item.id" :mindar-image-target="'targetIndex: '+ index">
+        <!-- <ArButtons :id="item.id"/> -->
+        <ArVideo v-if="item.video" :videoURL="buildResourcesUrls(item.video)" width="1" :height="item.height"/>
       </a-entity>
   </a-scene>
   </div>
@@ -23,35 +23,17 @@ import ArVideo from './ArVideo.vue';
 export default {
   name: 'ArScene',
   props: ['id'],
+  // eslint-disable-next-line vue/no-unused-components
   components: { ArButtons, ArVideo },
-  data() {
-    return {
-      items: [
-        {
-          id: 1,
-          video: './video.mp4',
-          // video: null,
-          height: '1.2',
-        },
-        {
-          id: 0,
-          video: './video2.webm',
-          // video: null,
-          height: '1.2',
-        },
-      ],
-    };
+  async created() {
+    await this.$store.dispatch('loadPictures', this.id);
   },
   methods: {
-    getMeta(url, cb) {
-      const img = new Image();
-      img.onload = () => cb(null, img);
-      img.onerror = (err) => cb(err);
-      img.src = url;
-    },
     getTargetSrc() {
-      console.log(this.id);
-      return `imageTargetSrc: http://localhost:9000/api/targetfile/${this.id}; maxTrack: 1;`;
+      return `imageTargetSrc: http://localhost:9000/uploads/targets_${this.id}.mind; maxTrack: 1;`;
+    },
+    buildResourcesUrls(resourcePath) {
+      return `http://localhost:9000/${resourcePath}`;
     },
   },
 };

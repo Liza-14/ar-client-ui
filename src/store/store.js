@@ -7,6 +7,10 @@ const store = createStore({
   state() {
     return {
       user: null,
+      exhibitions: [],
+      exhibitionToEdit: null,
+      loading: false,
+      pictures: {},
     };
   },
   mutations: muttations,
