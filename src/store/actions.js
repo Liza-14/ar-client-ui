@@ -5,7 +5,25 @@ import VueCookies from 'vue-cookies';
 const actions = {
   login(context, loginForm) {
     fetch(
-      'http://192.168.1.122:9000/api/login',
+      'http://localhost:9000/api/login',
+      {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginForm),
+      },
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        context.commit('setUser', data.user);
+        VueCookies.set('token', data.token, '1d');
+        VueCookies.set('id', data.user.id, '1d');
+      });
+  },
+  register(context, loginForm) {
+    fetch(
+      'http://localhost:9000/api/reg',
       {
         method: 'post',
         headers: {
@@ -23,7 +41,7 @@ const actions = {
   },
   getUserData(context, payload) {
     fetch(
-      `http://192.168.1.122:9000/api/user/${VueCookies.get('id')}`,
+      `http://localhost:9000/api/user/${VueCookies.get('id')}`,
       {
         method: 'get',
         headers: {
@@ -38,7 +56,7 @@ const actions = {
       });
   },
   loadAllExhibitions(context, payload) {
-    fetch('http://192.168.1.122:9000/api/exhibitions')
+    fetch('http://localhost:9000/api/exhibitions')
       .then((res) => res.json())
       .then((data) => context.commit('setExhibitions', data));
   },
@@ -48,7 +66,7 @@ const actions = {
     if (item) {
       context.commit('setExhibitionToEdit', item);
     } else {
-      fetch(`http://192.168.1.122:9000/api/exhibition/${id}`)
+      fetch(`http://localhost:9000/api/exhibition/${id}`)
         .then((res) => res.json())
         .then((data) => context.commit('setExhibitionToEdit', data));
     }
@@ -60,7 +78,7 @@ const actions = {
   },
   createExhibition(context, payload) {
     fetch(
-      'http://192.168.1.122:9000/api/exhibition',
+      'http://localhost:9000/api/exhibition',
       {
         method: 'post',
         headers: {
@@ -76,7 +94,7 @@ const actions = {
       });
   },
   loadPictures(context, id) {
-    fetch(`http://192.168.1.122:9000/api/pictures/${id}`)
+    fetch(`http://localhost:9000/api/pictures/${id}`)
       .then((res) => res.json())
       .then((pictures) => context.commit('setExhibitionPictures', { pictures, id }));
   },
@@ -88,7 +106,7 @@ const actions = {
     formData.append('authorid', payload.authorid);
     formData.append('exhibitionid', payload.exhibitionid);
     fetch(
-      'http://192.168.1.122:9000/api/picture',
+      'http://localhost:9000/api/picture',
       {
         method: 'post',
         body: formData,
@@ -108,7 +126,7 @@ const actions = {
     formData.append('videofile', payload.videoFile);
     formData.append('pictureId', payload.pictureId);
     fetch(
-      'http://192.168.1.122:9000/api/video',
+      'http://localhost:9000/api/video',
       {
         method: 'post',
         body: formData,
@@ -125,7 +143,7 @@ const actions = {
   },
   deletePicture(context, payload) {
     fetch(
-      `http://192.168.1.122:9000/api/picture/${payload.id}`,
+      `http://localhost:9000/api/picture/${payload.id}`,
       {
         method: 'delete',
         headers: {
@@ -141,7 +159,7 @@ const actions = {
   generateTargets(context, exhibitionId) {
     context.commit('setLoading', true);
     fetch(
-      `http://192.168.1.122:9000/api/generate/${exhibitionId}`,
+      `http://localhost:9000/api/generate/${exhibitionId}`,
       {
         method: 'post',
         headers: {
@@ -152,7 +170,6 @@ const actions = {
       .then((res) => res.json())
       .then((data) => {
         context.commit('setLoading', false);
-        console.log(data);
       });
   },
 };

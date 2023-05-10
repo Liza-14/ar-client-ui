@@ -25,6 +25,7 @@ export default {
 body {
   background-color: whitesmoke;
   margin: 0;
+  overflow: scroll;
 }
 
 #app {
@@ -40,7 +41,6 @@ input, textarea {
   border: none;
   border-radius: 28px;
   margin: 0 auto;
-  margin-top: 10px;
   height: 40px;
   width: 300px;
   padding: 0px 16px 0px 16px;
@@ -58,7 +58,7 @@ label {
   width: 300px;
   margin: 0 auto;
   margin-top: 10px;
-  margin-bottom: 0;
+  margin-bottom: 2px;
   padding-bottom: 0;
   font-size: smaller;
 }
@@ -125,5 +125,14 @@ input[type=file]:hover::before {
 }
 input[type=file]:hover {
   cursor: pointer;
+}
+
+hr {
+  width: 90%;
+  color: lightgrey;
+  height: 0px;
+  border: none;
+  border-top: 1px solid lightgray;
+  margin: 20px;
 }
 </style>

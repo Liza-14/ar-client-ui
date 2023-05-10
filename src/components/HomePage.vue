@@ -1,6 +1,24 @@
 <template>
-      <button @click="toExhibitionCreateFrom()" class="btn btn-secondary">➕ Schedule an exhibition</button>
-
+  <div class="user-exhibition-list" v-if="this.$store.state.user && this.$store.state.user.role === 'artist'">
+    <div class="title">MY EXHIBITIONS</div>
+    <button @click="toExhibitionCreateFrom()" class="btn btn-secondary">➕ Schedule an exhibition</button>
+    <div class="exhibition-list">
+      <div v-for="item in this.$store.state.exhibitions.filter(x => x.authorid == this.$store.state.user.id)" :key="item.id" class="exhibition-item">
+        <div class="img-container">
+          <img class="img" src="../assets/placeholder-image.jpg" alt="">
+        </div>
+        <div class="title">
+          {{ item.name }}
+        </div>
+        <div>
+          <button class="btn icon-btn" @click="this.toAR(item)">AR</button>
+          <button v-if="this.$store.state.user.id == item.authorid" class="btn btn-secondary icon-btn" @click="this.toExhibitionEditFrom(item.id)">✏️</button>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+  <div class="title">ALL EXHIBITIONS</div>
   <div class="exhibition-list">
     <div v-for="item in this.$store.state.exhibitions" :key="item.id" class="exhibition-item">
       <div class="img-container">
@@ -15,6 +33,7 @@
       </div>
     </div>
   </div>
+  <hr>
 </template>
 
 <script>

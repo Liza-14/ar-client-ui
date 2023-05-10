@@ -90,7 +90,6 @@ export default {
     },
     uploadArVideo(event) {
       const videofile = event.target.files[0];
-      console.log(videofile);
       this.videofile = videofile;
     },
     saveVideo(pictureId) {

@@ -12,6 +12,7 @@
         <!-- <ArButtons :id="item.id"/> -->
         <ArVideo v-if="item.video" :videoURL="buildResourcesUrls(item.video)" width="1" :height="item.height"/>
       </a-entity>
+      <button @click="toHome()" class="btn scene-btn">Back</button>
   </a-scene>
   </div>
 </template>
@@ -35,6 +36,9 @@ export default {
     buildResourcesUrls(resourcePath) {
       return `http://localhost:9000/${resourcePath}`;
     },
+    toHome() {
+      this.$router.push({ name: 'home' });
+    },
   },
 };
 </script>
@@ -44,11 +48,20 @@ export default {
 .container {
   margin: 0 auto;
   position: relative;
-  height: 90vh;
-  width: 60vw;
+  height: 100vh;
+  width: 100%;
   overflow: hidden;
 }
+
 video {
   top: 0 !important;
+}
+
+.scene-btn {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  left: 0;
+  width: 150px;
 }
 </style>

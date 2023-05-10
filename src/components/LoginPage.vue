@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-multiple-template-root -->
 <template>
     <div class="title">Login {{ this.$store.state.user?.email }} 🔏</div>
     <form class="loginForm">
@@ -22,7 +21,7 @@ export default {
     login() {
       this.$store.dispatch('login', this.loginForm)
         .then(() => this.$router.push({ name: 'home' }))
-        .catch((e) => alert(e));
+        .catch((e) => this.$alert(e));
     },
   },
 };

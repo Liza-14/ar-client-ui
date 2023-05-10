@@ -1,5 +1,5 @@
 <template>
-  <a-video :src="videoURL" :width="width" :height="height" position="0 0 0" ></a-video>
+  <a-video :src="videoURL" :width="width" :height="height" position="0 -0.5 0" opacity="0.5"></a-video>
 </template>
 
 <script>

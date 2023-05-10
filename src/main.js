@@ -1,11 +1,13 @@
 import { createApp } from 'vue';
+import VueSimpleAlert from 'vue3-simple-alert-next';
 import App from './App.vue';
 import router from './router';
 import store from './store/store';
 
 createApp(App)
-  .use(router)
   .use(store)
+  .use(router)
+  .use(VueSimpleAlert)
   .mount('#app');
 
 /* eslint-disable */
