@@ -2,10 +2,12 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import VueCookies from 'vue-cookies';
 
+const api = process.env.API_URL;
+
 const actions = {
   login(context, loginForm) {
     fetch(
-      'http://localhost:9000/api/login',
+      `${api}/api/login`,
       {
         method: 'post',
         headers: {
@@ -23,7 +25,7 @@ const actions = {
   },
   register(context, loginForm) {
     fetch(
-      'http://localhost:9000/api/reg',
+      `${api}/api/reg`,
       {
         method: 'post',
         headers: {
@@ -41,7 +43,7 @@ const actions = {
   },
   getUserData(context, payload) {
     fetch(
-      `http://localhost:9000/api/user/${VueCookies.get('id')}`,
+      `${api}/api/user/${VueCookies.get('id')}`,
       {
         method: 'get',
         headers: {
@@ -56,7 +58,7 @@ const actions = {
       });
   },
   loadAllExhibitions(context, payload) {
-    fetch('http://localhost:9000/api/exhibitions')
+    fetch(`${api}/api/exhibitions`)
       .then((res) => res.json())
       .then((data) => context.commit('setExhibitions', data));
   },
@@ -66,7 +68,7 @@ const actions = {
     if (item) {
       context.commit('setExhibitionToEdit', item);
     } else {
-      fetch(`http://localhost:9000/api/exhibition/${id}`)
+      fetch(`${api}/api/exhibition/${id}`)
         .then((res) => res.json())
         .then((data) => context.commit('setExhibitionToEdit', data));
     }
@@ -78,7 +80,7 @@ const actions = {
   },
   createExhibition(context, payload) {
     fetch(
-      'http://localhost:9000/api/exhibition',
+      `${api}/api/exhibition`,
       {
         method: 'post',
         headers: {
@@ -94,7 +96,7 @@ const actions = {
       });
   },
   loadPictures(context, id) {
-    fetch(`http://localhost:9000/api/pictures/${id}`)
+    fetch(`${api}/api/pictures/${id}`)
       .then((res) => res.json())
       .then((pictures) => context.commit('setExhibitionPictures', { pictures, id }));
   },
@@ -106,7 +108,7 @@ const actions = {
     formData.append('authorid', payload.authorid);
     formData.append('exhibitionid', payload.exhibitionid);
     fetch(
-      'http://localhost:9000/api/picture',
+      `${api}/api/picture`,
       {
         method: 'post',
         body: formData,
@@ -126,7 +128,7 @@ const actions = {
     formData.append('videofile', payload.videoFile);
     formData.append('pictureId', payload.pictureId);
     fetch(
-      'http://localhost:9000/api/video',
+      `${api}/api/video`,
       {
         method: 'post',
         body: formData,
@@ -143,7 +145,7 @@ const actions = {
   },
   deletePicture(context, payload) {
     fetch(
-      `http://localhost:9000/api/picture/${payload.id}`,
+      `${api}/api/picture/${payload.id}`,
       {
         method: 'delete',
         headers: {
@@ -159,7 +161,7 @@ const actions = {
   generateTargets(context, exhibitionId) {
     context.commit('setLoading', true);
     fetch(
-      `http://localhost:9000/api/generate/${exhibitionId}`,
+      `${api}/api/generate/${exhibitionId}`,
       {
         method: 'post',
         headers: {
