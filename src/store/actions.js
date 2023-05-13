@@ -2,7 +2,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import VueCookies from 'vue-cookies';
 
-const api = process.env.API_URL;
+const api = process.env.VUE_APP_API_URL;
 
 const actions = {
   login(context, loginForm) {
