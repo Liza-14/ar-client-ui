@@ -21,6 +21,8 @@
 import ArButtons from './ArButtons.vue';
 import ArVideo from './ArVideo.vue';
 
+const api = process.env.VUE_APP_API_URL;
+
 export default {
   name: 'ArScene',
   props: ['id'],
@@ -31,10 +33,10 @@ export default {
   },
   methods: {
     getTargetSrc() {
-      return `imageTargetSrc: http://localhost:9000/uploads/targets_${this.id}.mind; maxTrack: 1;`;
+      return `imageTargetSrc: ${api}/uploads/targets_${this.id}.mind; maxTrack: 1;`;
     },
     buildResourcesUrls(resourcePath) {
-      return `http://localhost:9000/${resourcePath}`;
+      return `${api}/${resourcePath}`;
     },
     toHome() {
       this.$router.push({ name: 'home' });

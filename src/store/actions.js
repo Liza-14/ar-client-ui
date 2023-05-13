@@ -167,6 +167,7 @@ const actions = {
         headers: {
           authorization: `Bearer ${VueCookies.get('token')}`,
         },
+        timeout: 2400000,
       },
     )
       .then((res) => res.json())
