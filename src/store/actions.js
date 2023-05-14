@@ -184,7 +184,7 @@ const actions = {
         headers: {
           authorization: `Bearer ${VueCookies.get('token')}`,
         },
-        timeout: 2400000,
+        signal: AbortSignal.timeout(2400000),
       },
     )
       .then((res) => readProgress(res.body.getReader()));
