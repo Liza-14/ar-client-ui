@@ -170,6 +170,7 @@ const actions = {
           context.commit('setProgressMessage', '');
           context.commit('setLoading', false);
         } else {
+          context.commit('setProgressMessage', '0');
           context.commit('setLoading', true);
           readProgress(reader);
         }
