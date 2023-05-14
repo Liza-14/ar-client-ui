@@ -1,5 +1,6 @@
 <template>
   <div v-if="this.$store.state.loading" class="lds-facebook"><div>⏳</div><div>⌛</div><div>⏳</div></div>
+  <progress v-if="this.$store.state.loading && this.$store.state.progressMessage" max="100" :value="this.$store.state.progressMessage"></progress>
 </template>
 
 <script>

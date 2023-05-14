@@ -160,6 +160,22 @@ const actions = {
   },
   generateTargets(context, exhibitionId) {
     context.commit('setLoading', true);
+
+    function readProgress(reader) {
+      reader.read().then((c) => {
+        const decoder = new TextDecoder();
+        const m = decoder.decode(c.value || new Uint8Array(), { stream: !c.done });
+        context.commit('setProgressMessage', m);
+        if (c.done) {
+          context.commit('setProgressMessage', '');
+          context.commit('setLoading', false);
+        } else {
+          context.commit('setLoading', true);
+          readProgress(reader);
+        }
+      });
+    }
+
     fetch(
       `${api}/api/generate/${exhibitionId}`,
       {
@@ -170,10 +186,7 @@ const actions = {
         timeout: 2400000,
       },
     )
-      .then((res) => res.json())
-      .then((data) => {
-        context.commit('setLoading', false);
-      });
+      .then((res) => readProgress(res.body.getReader()));
   },
 };
 

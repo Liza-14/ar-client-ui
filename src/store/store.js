@@ -10,6 +10,7 @@ const store = createStore({
       exhibitions: [],
       exhibitionToEdit: null,
       loading: false,
+      progressMessage: '',
       pictures: {},
     };
   },

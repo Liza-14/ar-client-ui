@@ -21,6 +21,9 @@ const muttations = {
   setLoading(state, value) {
     state.loading = value;
   },
+  setProgressMessage(state, value) {
+    state.progressMessage = value;
+  },
 };
 
 export default muttations;
