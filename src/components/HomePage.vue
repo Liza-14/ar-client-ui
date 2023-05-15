@@ -29,7 +29,7 @@
       </div>
       <div>
         <button class="btn icon-btn" @click="this.toAR(item)">AR</button>
-        <button v-if="this.$store.state.user.id == item.authorid" class="btn btn-secondary icon-btn" @click="this.toExhibitionEditFrom(item.id)">✏️</button>
+        <button v-if="this.$store.state.user && this.$store.state.user.id == item.authorid" class="btn btn-secondary icon-btn" @click="this.toExhibitionEditFrom(item.id)">✏️</button>
       </div>
     </div>
   </div>

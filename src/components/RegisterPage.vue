@@ -31,7 +31,7 @@ export default {
       this.registerForm.role = this.registerForm.asArtist ? 'artist' : 'visitor';
       this.$store.dispatch('register', this.registerForm)
         .then(() => this.$router.push({ name: 'home' }))
-        .catch((e) => this.$alert(e));
+        .catch((e) => this.$alert(e.message));
     },
   },
 };

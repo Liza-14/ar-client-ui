@@ -59,12 +59,12 @@ const router = createRouter({
 // eslint-disable-next-line consistent-return
 router.beforeEach(async (to, from, next) => {
   if (to.meta.requiredAuth && store.state.user == null) {
-    VueSimpleAlert.alert('Need to login');
+    VueSimpleAlert.alert('Login is required', 'Error');
     next({ name: 'login' });
   }
 
   if (to.meta.requiredRole && to.meta.requiredRole !== store.state.user.role) {
-    VueSimpleAlert.alert('No permissions');
+    VueSimpleAlert.alert('No permissions', 'Error');
     next({ name: 'login' });
   }
 

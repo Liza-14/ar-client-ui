@@ -21,7 +21,7 @@ export default {
     login() {
       this.$store.dispatch('login', this.loginForm)
         .then(() => this.$router.push({ name: 'home' }))
-        .catch((e) => this.$alert(e));
+        .catch((e) => this.$alert(e.message, 'Error'));
     },
   },
 };

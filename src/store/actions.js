@@ -6,7 +6,7 @@ const api = process.env.VUE_APP_API_URL;
 
 const actions = {
   login(context, loginForm) {
-    fetch(
+    return fetch(
       `${api}/api/login`,
       {
         method: 'post',
@@ -16,15 +16,21 @@ const actions = {
         body: JSON.stringify(loginForm),
       },
     )
-      .then((res) => res.json())
-      .then((data) => {
-        context.commit('setUser', data.user);
-        VueCookies.set('token', data.token, '1d');
-        VueCookies.set('id', data.user.id, '1d');
+      .then(async (res) => {
+        res.data = await res.json();
+        return res;
+      })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.data.error);
+        }
+        context.commit('setUser', res.data.user);
+        VueCookies.set('token', res.data.token, '1d');
+        VueCookies.set('id', res.data.user.id, '1d');
       });
   },
   register(context, loginForm) {
-    fetch(
+    return fetch(
       `${api}/api/reg`,
       {
         method: 'post',
@@ -34,11 +40,17 @@ const actions = {
         body: JSON.stringify(loginForm),
       },
     )
-      .then((res) => res.json())
-      .then((data) => {
-        context.commit('setUser', data.user);
-        VueCookies.set('token', data.token, '1d');
-        VueCookies.set('id', data.user.id, '1d');
+      .then(async (res) => {
+        res.data = await res.json();
+        return res;
+      })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.data.error);
+        }
+        context.commit('setUser', res.data.user);
+        VueCookies.set('token', res.data.token, '1d');
+        VueCookies.set('id', res.data.user.id, '1d');
       });
   },
   getUserData(context, payload) {
@@ -160,7 +172,7 @@ const actions = {
   },
   generateTargets(context, exhibitionId) {
     context.commit('setLoading', true);
-
+    context.commit('setProgressMessage', '0');
     function readProgress(reader) {
       reader.read().then((c) => {
         const decoder = new TextDecoder();
@@ -170,7 +182,6 @@ const actions = {
           context.commit('setProgressMessage', '');
           context.commit('setLoading', false);
         } else {
-          context.commit('setProgressMessage', '0');
           context.commit('setLoading', true);
           readProgress(reader);
         }
