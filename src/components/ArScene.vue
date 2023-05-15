@@ -10,7 +10,7 @@
       <a-camera position="0 0 0" look-controls="enabled: true" cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable"></a-camera>
       <a-entity v-for="(item, index) in this.$store.state.pictures[this.id]" :key="item.id" :mindar-image-target="'targetIndex: '+ index">
         <!-- <ArButtons :id="item.id"/> -->
-        <ArVideo v-if="item.video" :videoURL="buildResourcesUrls(item.video)" width="1" :height="item.height"/>
+        <ArVideo v-if="item.video" :videoURL="buildResourcesUrls(item.video)" width="1.1" :height="item.height"/>
       </a-entity>
       <button @click="toHome()" class="btn scene-btn">Back</button>
   </a-scene>
