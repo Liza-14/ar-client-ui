@@ -15,7 +15,9 @@
         v-for="(videoitem, index) in this.$store.state.pictures[this.id]"
         :key="videoitem.id"
         autoplay
-        loop="true"
+        loop
+        muted
+        playsinline
         :src="buildResourcesUrls(videoitem.video)"></video>
       </a-assets>
       <a-entity
