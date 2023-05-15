@@ -17,7 +17,8 @@
         autoplay
         loop
         playsinline
-        :src="buildResourcesUrls(videoitem.video)"></video>
+        :src="buildResourcesUrls(videoitem.video)"
+        crossorigin="anonymous"></video>
       </a-assets>
       <a-entity
         :ref="'target'+ index"
