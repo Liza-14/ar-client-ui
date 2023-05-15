@@ -16,7 +16,6 @@
         :key="videoitem.id"
         autoplay
         loop
-        muted
         playsinline
         :src="buildResourcesUrls(videoitem.video)"></video>
       </a-assets>
@@ -59,6 +58,7 @@ export default {
       this.$router.push({ name: 'home' });
     },
     targetFound(index) {
+      console.log('targetFound', index);
       const video = this.$refs[`arvideo${index}`][0];
       video.currentTime = 0;
     },
