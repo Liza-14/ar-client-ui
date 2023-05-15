@@ -179,7 +179,7 @@ const actions = {
         const m = decoder.decode(c.value || new Uint8Array(), { stream: !c.done });
         context.commit('setProgressMessage', m);
         if (c.done) {
-          context.commit('setProgressMessage', '');
+          context.commit('setProgressMessage', false);
           context.commit('setLoading', false);
         } else {
           context.commit('setLoading', true);

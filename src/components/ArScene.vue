@@ -26,8 +26,8 @@
         v-for="(item, index) in this.$store.state.pictures[this.id]"
         :key="item.id"
         :mindar-image-target="'targetIndex: '+ index"
-        @targetFound="targetFound(index)">
-          <a-video :src="'#arvideo' + index" width="1" :height="item.height" position="0 0 0" opacity="0.85"></a-video>
+        @loaded="setTargetFoundEvent(index, $event.target)">
+          <a-video :src="'#arvideo' + index" width="1" :height="item.height" position="0 0 0" opacity="0.80"></a-video>
           <!-- <ArButtons :id="item.id"/> -->
       </a-entity>
       <button @click="toHome()" class="btn scene-btn">Back</button>
@@ -47,10 +47,11 @@ export default {
   components: { ArButtons },
   async created() {
     await this.$store.dispatch('loadPictures', this.id);
+    // document.querySelector('#target0').addEventListener('target-found', (e) => console.log(e));
   },
   methods: {
     getTargetSrc() {
-      return `imageTargetSrc: ${api}/uploads/targets_${this.id}.mind; maxTrack: 1;`;
+      return `imageTargetSrc: ${api}/uploads/targets_${this.id}.mind; maxTrack: 1; filterMinCF:0.000001; filterBeta: 1000`;
     },
     buildResourcesUrls(resourcePath) {
       return `${api}/${resourcePath}`;
@@ -62,6 +63,9 @@ export default {
       console.log('targetFound', index);
       const video = this.$refs[`arvideo${index}`][0];
       video.currentTime = 0;
+    },
+    setTargetFoundEvent(index, entity) {
+      entity.addEventListener('targetFound', () => this.targetFound(index));
     },
   },
 };
