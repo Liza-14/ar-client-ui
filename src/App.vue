@@ -135,4 +135,8 @@ hr {
   border-top: 1px solid lightgray;
   margin: 20px;
 }
+
+video {
+  --webkit-playsinline: playsinline;
+}
 </style>

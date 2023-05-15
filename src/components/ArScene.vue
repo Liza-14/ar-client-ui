@@ -8,9 +8,25 @@
     color-space="sRGB"
     embedded>
       <a-camera position="0 0 0" look-controls="enabled: true" cursor="fuse: false; rayOrigin: mouse;" raycaster="objects: .clickable"></a-camera>
-      <a-entity v-for="(item, index) in this.$store.state.pictures[this.id]" :key="item.id" :mindar-image-target="'targetIndex: '+ index">
-        <!-- <ArButtons :id="item.id"/> -->
-        <ArVideo v-if="item.video" :videoURL="buildResourcesUrls(item.video)" width="1.1" :height="item.height"/>
+      <a-assets>
+        <video
+        :ref="'arvideo' + index"
+        :id="'arvideo' + index"
+        v-for="(videoitem, index) in this.$store.state.pictures[this.id]"
+        :key="videoitem.id"
+        autoplay
+        loop="true"
+        :src="buildResourcesUrls(videoitem.video)"></video>
+      </a-assets>
+      <a-entity
+        :ref="'target'+ index"
+        :id="'target'+ index"
+        v-for="(item, index) in this.$store.state.pictures[this.id]"
+        :key="item.id"
+        :mindar-image-target="'targetIndex: '+ index"
+        @targetFound="targetFound(index)">
+          <a-video :src="'#arvideo' + index" width="1" :height="item.height" position="0 0 0" opacity="0.85"></a-video>
+          <!-- <ArButtons :id="item.id"/> -->
       </a-entity>
       <button @click="toHome()" class="btn scene-btn">Back</button>
   </a-scene>
@@ -19,7 +35,6 @@
 
 <script>
 import ArButtons from './ArButtons.vue';
-import ArVideo from './ArVideo.vue';
 
 const api = process.env.VUE_APP_API_URL;
 
@@ -27,7 +42,7 @@ export default {
   name: 'ArScene',
   props: ['id'],
   // eslint-disable-next-line vue/no-unused-components
-  components: { ArButtons, ArVideo },
+  components: { ArButtons },
   async created() {
     await this.$store.dispatch('loadPictures', this.id);
   },
@@ -40,6 +55,10 @@ export default {
     },
     toHome() {
       this.$router.push({ name: 'home' });
+    },
+    targetFound(index) {
+      const video = this.$refs[`arvideo${index}`][0];
+      video.currentTime = 0;
     },
   },
 };
