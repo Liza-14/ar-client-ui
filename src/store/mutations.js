@@ -18,11 +18,17 @@ const muttations = {
   setExhibitionToEdit(state, data) {
     state.exhibitionToEdit = data;
   },
+  setPictureToEdit(state, data) {
+    state.pictureToEdit = data;
+  },
   setLoading(state, value) {
     state.loading = value;
   },
   setProgressMessage(state, value) {
     state.progressMessage = value;
+  },
+  setCurrentSurveys(state, value) {
+    state.currentSurveys = value;
   },
 };
 

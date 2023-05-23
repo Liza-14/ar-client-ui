@@ -14,10 +14,10 @@ export default {
   name: 'App',
   /* eslint-disable */
   components: { RouterView, PageHeader },
-  created() {
-    if (this.$store.state.user) return;
-    this.$store.dispatch('getUserData')
-  }
+  // created() {
+  //   if (this.$store.state.user) return;
+  //   this.$store.dispatch('getUserData')
+  // }
 }
 </script>
 

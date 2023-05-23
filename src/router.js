@@ -6,6 +6,8 @@ import RegisterPage from './components/RegisterPage.vue';
 import LoginPage from './components/LoginPage.vue';
 import CreateExhibitionPage from './components/CreateExhibitionPage.vue';
 import EditExhibitionPage from './components/EditExhibitionPage.vue';
+import EditPicturePage from './components/EditPicturePage.vue';
+import CreateSurveyPage from './components/CreateSurveyPage.vue';
 import store from './store/store';
 
 const routes = [
@@ -49,6 +51,26 @@ const routes = [
       requiredAuth: true,
     },
   },
+  {
+    path: '/editPicture/:id',
+    name: 'pictureEditPage',
+    component: EditPicturePage,
+    props: true,
+    meta: {
+      requiredRole: 'artist',
+      requiredAuth: true,
+    },
+  },
+  {
+    path: '/createSurvey/:pictureId',
+    name: 'createSurveyPage',
+    component: CreateSurveyPage,
+    props: true,
+    meta: {
+      requiredRole: 'artist',
+      requiredAuth: true,
+    },
+  },
 ];
 
 const router = createRouter({
@@ -58,6 +80,9 @@ const router = createRouter({
 
 // eslint-disable-next-line consistent-return
 router.beforeEach(async (to, from, next) => {
+  if (!store.state.user) {
+    await store.dispatch('getUserData');
+  }
   if (to.meta.requiredAuth && store.state.user == null) {
     VueSimpleAlert.alert('Login is required', 'Error');
     next({ name: 'login' });

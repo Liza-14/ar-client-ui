@@ -10,7 +10,8 @@
       <label for="name">Name:</label>
       <input type="text" id="name" placeholder="name" v-model="this.$store.state.exhibitionToEdit.name">
       <label for="description">Description:</label>
-      <textarea type="text" id="description" placeholder="description" v-model="this.$store.state.exhibitionToEdit.description"></textarea>
+      <textarea type="text" id="description" placeholder="description"
+        v-model="this.$store.state.exhibitionToEdit.description"></textarea>
       <label for="address">Address:</label>
       <input type="text" id="address" placeholder="address" v-model="this.$store.state.exhibitionToEdit.address">
       <label for="dateFrom">Active date from: {{ this.$store.state.exhibitionToEdit.datefrom }}</label>
@@ -23,46 +24,43 @@
 
   <div class="title">Pictures</div>
   <div class="page-container">
-        <table class="pictures">
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Image</th>
-            <th>AR Video</th>
-            <th>Ar height rate</th>
-            <th>Action</th>
-          </tr>
-          <tr v-for="picture in this.$store.state.pictures[this.id]" :key="picture.id">
-            <td>{{picture.name}}</td>
-            <td>{{picture.description}}</td>
-            <td>{{picture.image}}</td>
-            <td>{{picture.video}}
-              <input v-if="!picture.video"
-                @change="uploadArVideo"
-                type="file" id="videofile" ref="videofile" name="videofile">
-            </td>
-            <td>{{picture.height}}</td>
-            <td>
-              <button type="button" v-if="!picture.video" @click="saveVideo(picture.id)" class="btn btn-secondary">Save Video</button>
-              <button type="button" @click="deletePicture(picture.id)" class="btn btn-secondary">Delete</button>
-            </td>
-          </tr>
-          <tr class="formRow">
-            <td><input type="text" id="name" placeholder="name" v-model="newPicture.name"></td>
-            <td><textarea type="text" id="description" placeholder="description" v-model="newPicture.description"></textarea></td>
-            <td><input type="file" id="imagefile" @change="uploadFile" ref="imagefile" name="imagefile"></td>
-            <td></td>
-            <td>1</td>
-            <td><button type="button" @click="submit()" class="btn">Add</button></td>
-          </tr>
-        </table>
-        <div>
-          <button type="button" @click="generateTargets()" class="btn">Generate Targets</button>
-          <button type="button" @click="toAR()" class="btn">AR</button>
-          <button type="button" @click="toAR()" class="btn">Delete exhibition</button>
-        </div>
+    <table class="pictures">
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Videos</th>
+        <th>Ar height rate</th>
+        <th>Action</th>
+      </tr>
+      <tr v-for="picture in this.$store.state.pictures[this.id]" :key="picture.id">
+        <td>{{ picture.name }}</td>
+        <td>{{ picture.description }}</td>
+        <td>{{ picture.image }}</td>
+        <td>{{ picture.videos?.length ?? 0 }}</td>
+        <td>{{ picture.height }}</td>
+        <td>
+          <button type="button" @click="toEditPage(picture.id)" class="btn btn-secondary">Edit</button>
+          <button type="button" @click="deletePicture(picture.id)" class="btn btn-secondary">Delete</button>
+        </td>
+      </tr>
+      <tr class="formRow">
+        <td><input type="text" id="name" placeholder="name" v-model="newPicture.name"></td>
+        <td><textarea type="text" id="description" placeholder="description" v-model="newPicture.description"></textarea>
+        </td>
+        <td><input type="file" id="imagefile" @change="uploadFile" ref="imagefile" name="imagefile"></td>
+        <td>0</td>
+        <td>1</td>
+        <td><button type="button" @click="submit()" class="btn">Add</button></td>
+      </tr>
+    </table>
+    <div>
+      <button type="button" @click="generateTargets()" class="btn">Generate Targets</button>
+      <button type="button" @click="toAR()" class="btn">AR</button>
+      <button type="button" @click="deleteExhibition()" class="btn">Delete exhibition</button>
     </div>
-    <LoadingIndicator/>
+  </div>
+  <LoadingIndicator />
 </template>
 
 <script>
@@ -88,22 +86,17 @@ export default {
       const imagefile = this.$refs.imagefile.files[0];
       this.imagefile = imagefile;
     },
-    uploadArVideo(event) {
-      const videofile = event.target.files[0];
-      this.videofile = videofile;
-    },
-    saveVideo(pictureId) {
-      this.$store.dispatch('uploadArVideo', {
-        pictureId,
-        videoFile: this.videofile,
-        exhibitionid: this.$store.state.exhibitionToEdit.id,
-      });
-    },
     deletePicture(id) {
       this.$store.dispatch('deletePicture', {
         id,
         exhibitionid: this.$store.state.exhibitionToEdit.id,
       });
+    },
+    deleteExhibition() {
+      this.$store.dispatch('deleteExhibition', {
+        id: this.id,
+      })
+        .then(() => this.$router.push({ name: 'home' }));
     },
     generateTargets() {
       this.$store.dispatch('generateTargets', this.$store.state.exhibitionToEdit.id);
@@ -118,6 +111,9 @@ export default {
     },
     toAR() {
       this.$router.push({ name: 'ar', params: { id: this.id } });
+    },
+    toEditPage(pictureId) {
+      this.$router.push({ name: 'pictureEditPage', params: { id: pictureId } });
     },
   },
 };
@@ -157,13 +153,15 @@ export default {
   width: 100%;
 }
 
-.pictures th, td{
+.pictures th,
+td {
   border: 1px solid lightgrey;
   padding: 10px;
   background-color: white;
 }
 
-.pictures input, .pictures textarea{
+.pictures input,
+.pictures textarea {
   height: 30px;
   width: auto;
   border-radius: 0px;
@@ -173,7 +171,7 @@ export default {
   border-bottom: 1px solid lightgrey;
 }
 
-.pictures input:hover, textarea:hover{
+.pictures input:hover,
+textarea:hover {
   box-shadow: none;
-}
-</style>
+}</style>

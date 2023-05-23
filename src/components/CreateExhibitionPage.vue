@@ -32,7 +32,8 @@ export default {
   methods: {
     submit() {
       this.exhibitionForm.authorId = this.$store.state.user.id;
-      this.$store.dispatch('createExhibition', this.exhibitionForm);
+      this.$store.dispatch('createExhibition', this.exhibitionForm)
+        .then(() => this.$router.push({ name: 'home' }));
     },
   },
 };

@@ -54,8 +54,10 @@ const actions = {
       });
   },
   getUserData(context, payload) {
-    fetch(
-      `${api}/api/user/${VueCookies.get('id')}`,
+    const id = VueCookies.get('id');
+    if (!id) return null;
+    return fetch(
+      `${api}/api/user/${id}`,
       {
         method: 'get',
         headers: {
@@ -85,13 +87,24 @@ const actions = {
         .then((data) => context.commit('setExhibitionToEdit', data));
     }
   },
+  loadPictureById(context, id) {
+    const item = Object.values(context.state.pictures)[0]?.find((x) => x.id.toString() === id.toString());
+
+    if (item) {
+      context.commit('setPictureToEdit', item);
+    } else {
+      fetch(`${api}/api/picture/${id}`)
+        .then((res) => res.json())
+        .then((data) => context.commit('setPictureToEdit', data));
+    }
+  },
   logout(context, payload) {
     VueCookies.remove('token');
     VueCookies.remove('id');
     context.commit('removeUser');
   },
   createExhibition(context, payload) {
-    fetch(
+    return fetch(
       `${api}/api/exhibition`,
       {
         method: 'post',
@@ -108,7 +121,7 @@ const actions = {
       });
   },
   loadPictures(context, id) {
-    fetch(`${api}/api/pictures/${id}`)
+    return fetch(`${api}/api/pictures/${id}`)
       .then((res) => res.json())
       .then((pictures) => context.commit('setExhibitionPictures', { pictures, id }));
   },
@@ -152,7 +165,7 @@ const actions = {
     )
       .then((res) => res.json())
       .then((data) => {
-        context.dispatch('loadPictures', payload.exhibitionid);
+        context.dispatch('loadPictureById', payload.pictureId);
       });
   },
   deletePicture(context, payload) {
@@ -168,6 +181,36 @@ const actions = {
       .then((res) => res.json())
       .then((data) => {
         context.dispatch('loadPictures', payload.exhibitionid);
+      });
+  },
+  deleteVideo(context, payload) {
+    fetch(
+      `${api}/api/video/${payload.id}`,
+      {
+        method: 'delete',
+        headers: {
+          authorization: `Bearer ${VueCookies.get('token')}`,
+        },
+      },
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        context.dispatch('loadPictureById', payload.pictureid);
+      });
+  },
+  deleteExhibition(context, payload) {
+    return fetch(
+      `${api}/api/exhibition/${payload.id}`,
+      {
+        method: 'delete',
+        headers: {
+          authorization: `Bearer ${VueCookies.get('token')}`,
+        },
+      },
+    )
+      .then(() => {
+        context.dispatch('loadAllExhibitions');
+        context.dispatch('loadPictures', payload.id);
       });
   },
   generateTargets(context, exhibitionId) {
@@ -199,6 +242,24 @@ const actions = {
       },
     )
       .then((res) => readProgress(res.body.getReader()));
+  },
+  createSurvey(context, payload) {
+    return fetch(
+      `${api}/api/survey`,
+      {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${VueCookies.get('token')}`,
+        },
+        body: JSON.stringify(payload),
+      },
+    );
+  },
+  getSurveys(context, exhibitionId) {
+    return fetch(`${api}/api/surveys/${exhibitionId}`)
+      .then((res) => res.json())
+      .then((surveys) => context.commit('setCurrentSurveys', surveys));
   },
 };
 
