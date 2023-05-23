@@ -1,13 +1,15 @@
 <template>
-  <div class="survey">
-    <div class="survey-task" v-if="questions.length">
-      <div class="survey-task-text">{{questions[0].text}}</div>
-      <button
-        v-for="(o, k) in questions[0].options" :key="k"
-        class="btn btn-secondary"
-        @click="applyMatchParameter(o.match)">
-          {{o.text}}
-      </button>
+  <div class="survey-container">
+    <div class="survey">
+      <div class="survey-task" v-if="questions.length">
+        <div class="survey-task-text">{{questions[0].text}}</div>
+        <button
+          v-for="(o, k) in questions[0].options" :key="k"
+          class="btn btn-secondary"
+          @click="applyMatchParameter(o.match)">
+            {{o.text}}
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -48,14 +50,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.survey {
+
+.survey-container {
   position: absolute;
   z-index: 3;
   left: 0;
   right: 0;
-  top: 100px;
+  bottom: 50px;
   margin: 0 auto;
-  width: 400px;
+  padding: 25px;
+}
+.survey {
+  margin: 0 auto;
   background-color: whitesmoke;
   border-radius: 20px;
   padding: 20px;

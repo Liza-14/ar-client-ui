@@ -67,6 +67,10 @@ export default {
         this.$store.dispatch('getSurveys', this.id);
       });
   },
+  unmounted() {
+    const overlays = document.getElementsByClassName('mindar-ui-overlay');
+    [...overlays].forEach((x) => x.remove());
+  },
   data() {
     return {
       currentSurvey: null,
